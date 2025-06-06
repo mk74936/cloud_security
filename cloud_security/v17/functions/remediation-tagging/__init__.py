@@ -1,5 +1,5 @@
 import logging
-import json
+import os
 import azure.functions as func
 from azure.identity import DefaultAzureCredential
 from azure.mgmt.resource import ResourceManagementClient
@@ -15,7 +15,13 @@ def main(event: func.EventGridEvent):
         return
 
     credential = DefaultAzureCredential()
-    client = ResourceManagementClient(credential, "<YOUR_SUBSCRIPTION_ID>")
+
+    subscription_id = os.environ.get("AZURE_SUBSCRIPTION_ID")
+    if not subscription_id:
+        logging.error("AZURE_SUBSCRIPTION_ID environment variable is not set")
+        return
+
+    client = ResourceManagementClient(credential, subscription_id)
 
     try:
         resource = client.resources.get_by_id(resource_id, api_version="2021-04-01")
