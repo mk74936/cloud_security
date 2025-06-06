@@ -1,0 +1,4 @@
+PolicyResources
+| summarize Remediated = countif(ComplianceState == "Compliant"),
+            Pending = countif(ComplianceState == "NonCompliant")
+| project Remediated, Pending

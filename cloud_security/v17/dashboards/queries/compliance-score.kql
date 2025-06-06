@@ -1,0 +1,4 @@
+AzureActivity
+| where OperationNameValue == "Microsoft.PolicyInsights/policyStates/write"
+| summarize Total = count(), Compliant = countif(ComplianceState == "Compliant") by ResourceGroup
+| extend ComplianceScore = round(100 * todouble(Compliant) / Total, 2)

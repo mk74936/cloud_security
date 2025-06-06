@@ -1,0 +1,20 @@
+{
+  "properties": {
+    "displayName": "Starter Compliance Initiative",
+    "description": "Policy set to enforce tagging and restrict public IPs.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Security"
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "audit-tag-env",
+        "policyDefinitionId": "<REPLACE_WITH_TAG_POLICY_ID>"
+      },
+      {
+        "policyDefinitionReferenceId": "deny-public-ip",
+        "policyDefinitionId": "<REPLACE_WITH_DENY_POLICY_ID>"
+      }
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+PolicyResources
+| where ComplianceState == "NonCompliant"
+| project ResourceId, PolicyAssignmentName, Timestamp
+| order by Timestamp desc

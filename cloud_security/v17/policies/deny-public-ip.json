@@ -1,0 +1,30 @@
+{
+  "properties": {
+    "displayName": "Deny Public IP",
+    "policyType": "BuiltIn",
+    "mode": "All",
+    "description": "This policy denies public IP assignment to NICs and VMs.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "field": "Microsoft.Network/networkInterfaces/ipConfigurations.publicIpAddress.id",
+            "exists": "true"
+          },
+          {
+            "field": "Microsoft.Compute/virtualMachines/networkProfile.networkInterfaces[*].ipConfigurations[*].publicIpAddress.id",
+            "exists": "true"
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  }
+}

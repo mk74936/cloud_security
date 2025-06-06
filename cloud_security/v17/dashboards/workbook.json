@@ -1,0 +1,28 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": {
+          "title": "Compliance Dashboard",
+          "description": "Visual overview of policy compliance and remediation",
+          "sections": [
+            {
+              "title": "Compliance Score by Resource Group",
+              "kql": "\nAzureActivity\n| where OperationNameValue == \"Microsoft.PolicyInsights/policyStates/write\"\n| summarize Total = count(), Compliant = countif(ComplianceState == \"Compliant\") by ResourceGroup\n| extend ComplianceScore = round(100 * todouble(Compliant) / Total, 2)\n"
+            },
+            {
+              "title": "Policy Drift",
+              "kql": "\nPolicyResources\n| where ComplianceState == \"NonCompliant\"\n| project ResourceId, PolicyAssignmentName, Timestamp\n| order by Timestamp desc\n"
+            },
+            {
+              "title": "Remediation Summary",
+              "kql": "\nPolicyResources\n| summarize Remediated = countif(ComplianceState == \"Compliant\"),\n            Pending = countif(ComplianceState == \"NonCompliant\")\n| project Remediated, Pending\n"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

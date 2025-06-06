@@ -1,0 +1,22 @@
+{
+  "properties": {
+    "displayName": "Audit missing 'env' tag",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Audit resources that are missing the 'env' tag.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Tags"
+    },
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "field": "[concat('tags[', 'env', ']')]",
+        "exists": "false"
+      },
+      "then": {
+        "effect": "audit"
+      }
+    }
+  }
+}
