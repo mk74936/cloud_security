@@ -1,0 +1,26 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: terraform-installer@1
+  inputs:
+    terraformVersion: '1.5.7'
+
+- script: terraform -chdir=terraform init
+  displayName: 'Terraform Init'
+
+- script: terraform -chdir=terraform fmt -check
+  displayName: 'Terraform Format'
+
+- script: terraform -chdir=terraform validate
+  displayName: 'Terraform Validate'
+
+- script: terraform -chdir=terraform plan -out=tfplan
+  displayName: 'Terraform Plan'
+
+- script: terraform -chdir=terraform apply -auto-approve tfplan
+  displayName: 'Terraform Apply'
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
